@@ -1,0 +1,14 @@
+# VM files
+*.vmdk
+*.vmx
+*.vmss
+*.vmsn
+
+# ISOs
+*.iso
+
+# logs
+*.log
+
+# python cache
+__pycache__/
