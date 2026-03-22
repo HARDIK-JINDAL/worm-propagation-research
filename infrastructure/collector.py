@@ -17,15 +17,12 @@ def write_header(filepath):
         writer.writerow([
             "timestamp", "worm_type", "network",
             "source_ip", "infected_ip", "hop_count",
-            "live_hosts_found", "open_ports",
-            "spread_to", "spread_success", "time_to_spread"
+            "infected_chain"
         ])
 
 def start_collector():
     filepath = get_log_file()
     write_header(filepath)
-
-    # track first infection per victim
     infected_already = set()
 
     s = socket.socket()
@@ -44,15 +41,14 @@ def start_collector():
                 break
             data += chunk
         conn.close()
+
         try:
             log = json.loads(data.decode())
             infected_ip = log.get("infected_ip")
 
-            # only log first infection per victim
             if infected_ip in infected_already:
                 print(f"[~] Duplicate skipped: {infected_ip}")
                 continue
-
             infected_already.add(infected_ip)
 
             with open(filepath, "a", newline="") as f:
@@ -64,16 +60,10 @@ def start_collector():
                     log.get("source_ip"),
                     log.get("infected_ip"),
                     log.get("hop_count"),
-                    log.get("live_hosts_found"),
-                    log.get("open_ports"),
-                    log.get("spread_to"),
-                    log.get("spread_success"),
-                    log.get("time_to_spread")
+                    log.get("infected_chain")
                 ])
-
             print(f"[+] {log.get('worm_type')} | {log.get('source_ip')} → {log.get('infected_ip')} | hop {log.get('hop_count')}")
 
-            # stop after 5 victims infected
             if len(infected_already) == 5:
                 print("[*] All 5 victims infected — experiment complete")
 
