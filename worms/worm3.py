@@ -5,7 +5,7 @@ import os
 import time
 from datetime import datetime
 
-COLLECTOR_IP = "192.168.100.10"
+COLLECTOR_IP = "192.168.210.10"
 COLLECTOR_PORT = 8888
 COORDINATOR_PORT = 7777
 WORM_PORT = 9999
@@ -13,7 +13,7 @@ ALL_IPS = [f"192.168.100.{i}" for i in range(11, 16)]
 
 def get_my_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("192.168.100.10", 80))
+    s.connect(("192.168.210.10", 80))
     ip = s.getsockname()[0]
     s.close()
     return ip
